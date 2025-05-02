@@ -38,12 +38,13 @@
       width: 96%;
       border: 1px solid #0c2f2e;
       padding: 10px;
-      height: 300px;
+      height: 400px; /* taller */
       overflow-y: auto;
       background: #fafafa;
       margin-bottom: 15px;
       border-radius: 5px;
       font-family: 'Libre Baskerville', serif;
+      font-size: 14px; /* smaller font */
     }
     textarea {
       width: 96%;
@@ -68,27 +69,36 @@
       background-color: #0c2f2e;
     }
     p {
-  margin: 16px 0;
-  padding: 8px;
-  background: #f0f0f0;
-  border-radius: 5px;
-}
+      margin: 16px 0;
+      padding: 8px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
     strong {
       color: #008554;
     }
   </style>
-  <script>
-    const inputBox = document.getElementById('messageInput');
-inputBox.addEventListener('keydown', function (e) {
-  if (e.key === 'Enter') {
-    e.preventDefault(); // prevents adding newline
-    sendMessage();
-  }
-});
+</head>
+<body>
+  <h1>The Mitchells Chat Shed</h1>
+  <div id="chat-container">
+    <div id="response"></div>
+    <textarea id="message" rows="4" placeholder="Share your concerns..."></textarea><br>
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
   <script>
     const conversation = [
-      { role: "system", content: "You are a friendly, practical chatbot for UK farmers. Keep your tone down-to-earth and supportive." }
+      { role: "system", content: "You are a friendly farmer, down-to-earth chatbot for UK farmers. You are designed to help farmers with mental health who simply need someone to talk to without feeling judged or embarassed. Avoid corporate buzzwords. Keep answers practical, supportive, and under 100 words. Do not provide medical advice and should words which mean death are spoken, direct the user to a helpline, like the Farming Community Network." }
     ];
+
+    const inputBox = document.getElementById('message');
+    inputBox.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); // Prevent newline
+        sendMessage();
+      }
+    });
 
     async function sendMessage() {
       const messageInput = document.getElementById('message');
@@ -114,20 +124,13 @@ inputBox.addEventListener('keydown', function (e) {
         conversation.push({ role: "assistant", content: data.reply });
 
         responseDiv.innerHTML += `<p><strong>Chatbot:</strong> ${data.reply}</p>`;
-        responseDiv.scrollTop = responseDiv.scrollHeight;
+        responseDiv.scrollTop = responseDiv.scrollHeight; // Auto scroll to bottom
       } catch (error) {
         console.error(error);
         responseDiv.innerHTML += `<p style="color:red;">Error getting reply</p>`;
+        responseDiv.scrollTop = responseDiv.scrollHeight;
       }
     }
   </script>
-</head>
-<body>
-  <h1>The Mitchells Chat Shed</h1>
-  <div id="chat-container">
-    <div id="response"></div>
-    <textarea id="message" rows="4" placeholder="Share your concerns..."></textarea><br>
-    <button onclick="sendMessage()">Send</button>
-  </div>
 </body>
 </html>
