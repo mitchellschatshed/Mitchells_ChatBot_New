@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mitchells Chat Shed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Pluto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Libre Baskerville', serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-family: 'Pluto Sans', sans-serif;
+      letter-spacing: 2px;
+      background-color: #008554;
+      color: white;
+      width: 100%;
+      text-align: center;
+      margin: 0;
+      padding: 20px 0;
+    }
+    #chat-container {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    #response {
+      width: 96%;
+      border: 1px solid #0c2f2e;
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+      background: #fafafa;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      font-family: 'Libre Baskerville', serif;
+    }
+    textarea {
+      width: 96%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 14px;
+    }
+    button {
+      background-color: #68c187;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Pluto Sans', sans-serif;
+      font-size: 14px;
+    }
+    button:hover {
+      background-color: #0c2f2e;
+    }
+    p {
+  margin: 16px 0;
+  padding: 8px;
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+    strong {
+      color: #008554;
+    }
+  </style>
+  <script>
+    const conversation = [
+      { role: "system", content: "You are a friendly, practical chatbot for UK farmers. Keep your tone down-to-earth and supportive." }
+    ];
+
+    async function sendMessage() {
+      const messageInput = document.getElementById('message');
+      const responseDiv = document.getElementById('response');
+      const userMessage = messageInput.value.trim();
+
+      if (!userMessage) return;
+
+      conversation.push({ role: "user", content: userMessage });
+
+      responseDiv.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+      messageInput.value = "";
+
+      try {
+        const response = await fetch('http://localhost:3000/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: conversation })
+        });
+
+        const data = await response.json();
+
+        conversation.push({ role: "assistant", content: data.reply });
+
+        responseDiv.innerHTML += `<p><strong>Chatbot:</strong> ${data.reply}</p>`;
+        responseDiv.scrollTop = responseDiv.scrollHeight;
+      } catch (error) {
+        console.error(error);
+        responseDiv.innerHTML += `<p style="color:red;">Error getting reply</p>`;
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>The Mitchells Chat Shed</h1>
+  <div id="chat-container">
+    <div id="response"></div>
+    <textarea id="message" rows="4" placeholder="Share your concerns..."></textarea><br>
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</body>
+</html>
