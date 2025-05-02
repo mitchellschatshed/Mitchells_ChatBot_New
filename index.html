@@ -17,12 +17,13 @@
     h1 {
       font-family: 'Pluto Sans', sans-serif;
       letter-spacing: 2px;
-      background-color: #008554;
+      background-color: #0c2f2e; /* dark green */
       color: white;
       width: 100%;
       text-align: center;
       margin: 0;
-      padding: 20px 0;
+      padding: 30px 0; /* slightly taller header */
+      font-size: 28px; /* bigger font */
     }
     #chat-container {
       background: white;
@@ -38,13 +39,13 @@
       width: 96%;
       border: 1px solid #0c2f2e;
       padding: 10px;
-      height: 400px; /* taller */
+      height: 500px; /* taller */
       overflow-y: auto;
       background: #fafafa;
       margin-bottom: 15px;
       border-radius: 5px;
       font-family: 'Libre Baskerville', serif;
-      font-size: 14px; /* smaller font */
+      font-size: 14px;
     }
     textarea {
       width: 96%;
@@ -55,9 +56,9 @@
       font-size: 14px;
     }
     button {
-      background-color: #68c187;
+      background-color: #68c187; /* mid green */
+      border: 2px solid #a5d6b1; /* light green border */
       color: white;
-      border: none;
       padding: 10px 20px;
       margin-top: 10px;
       border-radius: 4px;
@@ -66,7 +67,7 @@
       font-size: 14px;
     }
     button:hover {
-      background-color: #0c2f2e;
+      background-color: #0c2f2e; /* hover to dark green */
     }
     p {
       margin: 16px 0;
@@ -89,13 +90,13 @@
 
   <script>
     const conversation = [
-      { role: "system", content: "You are a friendly farmer, down-to-earth chatbot for UK farmers. You are designed to help farmers with mental health who simply need someone to talk to without feeling judged or embarassed. Avoid corporate buzzwords. Keep answers practical, supportive, and under 100 words. Do not provide medical advice and should words which mean death are spoken, direct the user to a helpline, like the Farming Community Network." }
+      { role: "system", content: "You are a friendly, down-to-earth chatbot for UK farmers. Avoid corporate buzzwords. Keep answers practical, supportive, and under 100 words. Provide basic troubleshooting if asked about machinery." }
     ];
 
     const inputBox = document.getElementById('message');
     inputBox.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault(); // Prevent newline
+        e.preventDefault();
         sendMessage();
       }
     });
@@ -112,6 +113,7 @@
       responseDiv.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
       messageInput.value = "";
 
+      // ✅ No auto-scroll here → so user sees their message until reply comes
       try {
         const response = await fetch('https://the-mitchells-chat-shed.onrender.com/chat', {
           method: 'POST',
@@ -124,7 +126,7 @@
         conversation.push({ role: "assistant", content: data.reply });
 
         responseDiv.innerHTML += `<p><strong>Chatbot:</strong> ${data.reply}</p>`;
-        responseDiv.scrollTop = responseDiv.scrollHeight; // Auto scroll to bottom
+        responseDiv.scrollTop = responseDiv.scrollHeight; // ✅ Only scrolls when reply added
       } catch (error) {
         console.error(error);
         responseDiv.innerHTML += `<p style="color:red;">Error getting reply</p>`;
