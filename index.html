@@ -78,6 +78,14 @@
     }
   </style>
   <script>
+    const inputBox = document.getElementById('messageInput');
+inputBox.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    e.preventDefault(); // prevents adding newline
+    sendMessage();
+  }
+});
+  <script>
     const conversation = [
       { role: "system", content: "You are a friendly, practical chatbot for UK farmers. Keep your tone down-to-earth and supportive." }
     ];
