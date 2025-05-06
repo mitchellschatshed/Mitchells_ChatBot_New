@@ -1,147 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Mitchells Chat Shed</title>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Pluto+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Libre Baskerville', serif;
-      background-color: #f8fdfb;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 20px;
-      max-width: 1000px;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    #chat-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-    }
-    #response {
-      flex: 1;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 10px;
-      background: #ffffff;
-      margin-bottom: 10px;
-    }
-    .chat-image {
-      max-width: 300px;
-      border-radius: 10px;
-    }
-    #input-area {
-      display: flex;
-      gap: 10px;
-      width: 100%;
-    }
-    textarea {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      resize: none;
-      font-family: inherit;
-      height: 60px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #68c187;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: 'Pluto Sans', sans-serif;
-    }
-    button:hover {
-      background-color: #008554;
-    }
-    h1 {
-      font-family: 'Pluto Sans', sans-serif;
-      text-align: center;
-      color: #008554;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-    p {
-      margin: 8px 0;
-      padding: 6px;
-      background: #f0f0f0;
-      border-radius: 5px;
-    }
-    strong {
-      color: #008554;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mitchells Chat Shed - Chatbot</title>
+  <!-- Fonts: Libre Baskerville and Pluto Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Note: Pluto Sans might need to be imported via a separate stylesheet or @font-face if available -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="container">
-    <img
-      src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png"
-      alt="View of the farm"
-      class="chat-image"
-    />
-    <div id="chat-container">
-      <h1>The Mitchells Chat Shed</h1>
-      <div id="response"></div>
-      <div id="input-area">
-        <textarea id="message" placeholder="Type your message..."></textarea>
-        <button onclick="sendMessage()">Send</button>
+  <div class="chat-page">
+    <!-- Branding Section -->
+    <aside class="branding">
+      <img src="farm.jpg" alt="Farm scene representing Mitchells Chat Shed" />
+    </aside>
+
+    <!-- Chat Interface Section -->
+    <main class="chat-container">
+      <!-- Header with title -->
+      <header class="chat-header">
+        <h1>Mitchells Chat Shed</h1>
+      </header>
+
+      <!-- Messages display area (chat history) -->
+      <div class="chat-messages" role="log" aria-live="polite">
+        <!-- Example messages (for illustration) -->
+        <div class="message bot">Hello! How can I assist you today?</div>
+        <div class="message user">Hi, I need help with my account.</div>
+        <!-- New messages will be appended here by JS -->
       </div>
-    </div>
+
+      <!-- Input area for typing new messages -->
+      <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Type your message..." aria-label="Type your message" />
+        <button type="button" class="send-button">Send</button>
+      </div>
+    </main>
   </div>
 
-  <script>
-    const conversation = [
-      { role: "system", content: `You are a friendly, down-to-earth chatbot for UK farmers. Avoid corporate buzzwords. Any negativity regarding Mitchells, point them towards talking to a partner (James, David, Sam, or Rachael at Mitchells Chartered Accountants, 01823 333813). Keep answers practical, supportive, and under 100 words. Provide basic troubleshooting if asked about machinery.` }
-    ];
-
-    const inputBox = document.getElementById('message');
-    inputBox.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-
-    async function sendMessage() {
-      const msg = inputBox.value.trim();
-      if (!msg) return;
-      conversation.push({ role: 'user', content: msg });
-      const responseDiv = document.getElementById('response');
-      responseDiv.innerHTML += `<p><strong>You:</strong> ${msg}</p>`;
-      inputBox.value = '';
-      try {
-        const res = await fetch('https://the-mitchells-chat-shed.onrender.com/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: conversation })
-        });
-        const data = await res.json();
-        conversation.push({ role: 'assistant', content: data.reply });
-        responseDiv.innerHTML += `<p><strong>Chatbot:</strong> ${data.reply}</p>`;
-        responseDiv.scrollTop = responseDiv.scrollHeight;
-      } catch (err) {
-        console.error(err);
-        responseDiv.innerHTML += `<p style="color:red;">Error getting reply</p>`;
-        responseDiv.scrollTop = responseDiv.scrollHeight;
-      }
-    }
-  </script>
+  <!-- JavaScript file for chat functionality -->
+  <script src="script.js"></script>
 </body>
 </html>
