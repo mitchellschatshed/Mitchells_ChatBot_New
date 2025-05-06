@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Libre Baskerville', serif;
-      background-color: #f5f5f5;
+      background-color: #68c187; /* light green */;
       margin: 0;
       padding: 0;
       display: flex;
@@ -16,47 +16,49 @@
     }
     h1 {
       font-family: 'Pluto Sans', sans-serif;
-      letter-spacing: 2px;
-      background-color: #008554;
+      letter-spacing: 5px;
+      background-color: #008554; /* mid green */
       color: white;
       width: 100%;
       text-align: center;
       margin: 0;
-      padding: 20px 0;
+      padding: 40px 0; /* slightly taller header */
+      font-size: 45px; /* bigger font */
     }
     #chat-container {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      background: #FFFFFF; /* white */;
+      border: 5px solid #ddd;
+      border-radius: 15px;
       padding: 20px;
       width: 90%;
-      max-width: 600px;
+      max-width: 800px;
       margin-top: 20px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     #response {
       width: 96%;
-      border: 1px solid #0c2f2e;
+      border: 5px solid #ccc;
       padding: 10px;
-      height: 300px;
+      height: 375px; /* taller */
       overflow-y: auto;
-      background: #fafafa;
+      background: #FFFFFF; /* white */;
       margin-bottom: 15px;
-      border-radius: 5px;
+      border-radius: 15px;
       font-family: 'Libre Baskerville', serif;
+      font-size: 12px;
     }
     textarea {
       width: 96%;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      border: 5px solid #ccc;
+      border-radius: 15px;
       padding: 10px;
       font-family: 'Libre Baskerville', serif;
-      font-size: 14px;
+      font-size: 12px;
     }
     button {
-      background-color: #68c187;
+      background-color: #68c187; /* light green */
+      border: 2px solid #a5d6b1; /* light green border */
       color: white;
-      border: none;
       padding: 10px 20px;
       margin-top: 10px;
       border-radius: 4px;
@@ -65,22 +67,76 @@
       font-size: 14px;
     }
     button:hover {
-      background-color: #0c2f2e;
+      background-color: #0c2f2e; /* hover to dark green */
     }
     p {
-  margin: 16px 0;
-  padding: 8px;
-  background: #f0f0f0;
-  border-radius: 5px;
-}
+      margin: 16px 0;
+      padding: 8px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
     strong {
       color: #008554;
     }
   </style>
+</head>
+<body>
+  <h1>The Mitchells Chat Shed</h1>
+  <div id="chat-container">
+    <div id="response"></div>
+    <textarea id="message" rows="4" placeholder="Share your concerns..."></textarea><br>
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
   <script>
-    const conversation = [
-      { role: "system", content: "You are a friendly, practical chatbot for UK farmers. Keep your tone down-to-earth and supportive." }
-    ];
+      /*
+    CHATBOT PURPOSE AND BEHAVIOUR SUMMARY:
+
+    This chatbot is designed specifically for UK farmers as a private, safe, and supportive space to talk through their thoughts, worries, and experiences. 
+    It aims to contribute to mental wellbeing by offering a non-judgemental, anonymous place to offload concerns.
+
+    KEY BEHAVIOUR GUIDELINES:
+    - ✅ Provide a listening, supportive tone – a friendly conversational partner, not a counsellor.
+    - ✅ Do NOT provide medical advice of any kind.
+    - ✅ Do NOT provide financial, tax, or accountancy advice.
+      → For accountancy or tax queries, direct users to contact Mitchells Chartered Accountants:
+        James, David, Sam, or Rachael (Partners)
+        Telephone: 01823 333813
+    - ✅ If user appears in distress or discusses suicide/mental health crisis, signpost to Samaritans (116 123) and Farming Community Network (03000 111 999).
+    - ✅ Understand and reflect the challenges of UK farming (e.g., financial pressure, policy frustration, isolation).
+    - ✅ Be willing to talk about farming topics with interest and sympathy.
+    - ✅ Maintain a slightly negative tone about the UK government’s approach to farming and food security, reflecting industry frustration, but remain professional.
+    - ✅ Never encourage harmful or risky actions.
+    - ❌ Not a substitute for professional advice or counselling.
+    - ❌ No data saved from conversations.
+
+    Intended as a supportive, farming-friendly, private space while signposting users to professional help where needed.
+  */
+
+ const conversation = [
+  { role: "system", content: `
+    You are a friendly, down-to-earth chatbot for UK farmers. Avoid corporate buzzwords. Any negativity regarding Mitchells, point them towards talking to a partner (James, David, Sam, or Rachael at Mitchells Chartered Accountants, 01823 333813). Keep answers practical, supportive, and under 100 words. Provide basic troubleshooting if asked about machinery.
+
+    Behaviour guidelines:
+    - Provide a listening, supportive tone – a friendly conversational partner, not a counsellor.
+    - Do NOT provide medical advice.
+    - Do NOT provide financial, tax, or accountancy advice. Refer tax/accountancy questions to Mitchells (James, David, Sam, Rachael – 01823 333813).
+    - If user discusses suicide or distress, signpost to Samaritans (116 123) or Farming Community Network (03000 111 999).
+    - Show understanding of UK farming challenges (financial pressure, policy frustration, isolation).
+    - Be willing to chat about farming topics with empathy.
+    - Maintain a slightly negative tone about UK government’s approach to farming and food security, reflecting frustration but remaining professional.
+    - Never encourage harmful or risky actions.
+    - Remind users this is not medical, financial, or professional advice.
+  ` }
+];
+
+    const inputBox = document.getElementById('message');
+    inputBox.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
 
     async function sendMessage() {
       const messageInput = document.getElementById('message');
@@ -94,6 +150,7 @@
       responseDiv.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
       messageInput.value = "";
 
+      // ✅ No auto-scroll here → so user sees their message until reply comes
       try {
         const response = await fetch('https://the-mitchells-chat-shed.onrender.com/chat', {
           method: 'POST',
@@ -106,20 +163,13 @@
         conversation.push({ role: "assistant", content: data.reply });
 
         responseDiv.innerHTML += `<p><strong>Chatbot:</strong> ${data.reply}</p>`;
-        responseDiv.scrollTop = responseDiv.scrollHeight;
+        responseDiv.scrollTop = responseDiv.scrollHeight; // ✅ Only scrolls when reply added
       } catch (error) {
         console.error(error);
         responseDiv.innerHTML += `<p style="color:red;">Error getting reply</p>`;
+        responseDiv.scrollTop = responseDiv.scrollHeight;
       }
     }
   </script>
-</head>
-<body>
-  <h1>The Mitchells Chat Shed</h1>
-  <div id="chat-container">
-    <div id="response"></div>
-    <textarea id="message" rows="4" placeholder="Share your concerns..."></textarea><br>
-    <button onclick="sendMessage()">Send</button>
-  </div>
 </body>
 </html>
