@@ -15,11 +15,19 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      position: relative;
+    }
+    .bot-icon {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 100px;
+      border-radius: 10px;
     }
     .container {
       display: flex;
-      flex-direction: row;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
       gap: 20px;
       max-width: 1000px;
       padding: 20px;
@@ -33,6 +41,7 @@
       display: flex;
       flex-direction: column;
       padding: 20px;
+      width: 100%;
     }
     #response {
       overflow-y: auto;
@@ -41,11 +50,6 @@
       border-radius: 10px;
       margin-bottom: 15px;
       height: 400px;
-    }
-    .chat-image {
-      max-width: 250px;
-      border-radius: 10px;
-      object-fit: cover;
     }
     #input-area {
       display: flex;
@@ -77,7 +81,7 @@
     }
     h1 {
       font-family: 'Pluto Sans', sans-serif;
-      text-align: left;
+      text-align: center;
       color: #008554;
       margin-bottom: 20px;
     }
@@ -100,25 +104,24 @@
     }
 
     @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
+      .bot-icon {
+        width: 80px;
+        top: 10px;
+        left: 10px;
       }
-      .chat-image {
-        width: 100%;
-        max-width: none;
-        height: 150px;
+      .container {
+        padding-top: 60px;
       }
     }
   </style>
 </head>
 <body>
+  <img
+    src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png"
+    alt="Bot icon"
+    class="bot-icon"
+  />
   <div class="container">
-    <img
-      src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png"
-      alt="Farm image"
-      class="chat-image"
-    />
     <div id="chat-container">
       <h1>The Mitchells Chat Shed</h1>
       <div id="response"></div>
