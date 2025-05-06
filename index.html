@@ -2,168 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mitchells Chat Shed</title>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Pluto+Sans:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* CSS Variables for easy theming */
-    :root {
-      --color-bg: #f4fdf8;
-      --color-primary: #008554;
-      --color-secondary: #68c187;
-      --color-light: #ffffff;
-      --color-muted: #e6f3ec;
-      --radius: 12px;
-      --spacing: 16px;
-      --font-base: 'Libre Baskerville', serif;
-      --transition: 0.3s ease;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: var(--font-base);
-      background: var(--color-bg);
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    header {
-      background: var(--color-primary);
-      color: var(--color-light);
-      padding: var(--spacing);
-      text-align: center;
-      font-size: 1.75rem;
-      letter-spacing: 2px;
-    }
-    main {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: var(--spacing);
-      padding: var(--spacing);
-      max-width: 1200px;
-      margin: auto;
-      width: 100%;
-    }
-    /* Chat panel */
-    .chat-panel {
-      background: var(--color-light);
-      border-radius: var(--radius);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .chat-header {
-      background: var(--color-secondary);
-      color: var(--color-light);
-      padding: var(--spacing);
-      font-weight: bold;
-    }
-    .messages {
-      flex: 1;
-      padding: var(--spacing);
-      overflow-y: auto;
-    }
-    .message {
-      margin-bottom: var(--spacing);
-      padding: var(--spacing);
-      background: var(--color-muted);
-      border-radius: var(--radius);
-      transition: background var(--transition);
-    }
-    .message.user { background: #d1f0c4; align-self: flex-end; }
-    .message.bot { background: #e6f3ec; align-self: flex-start; }
-    .input-area {
-      display: flex;
-      border-top: 1px solid #ddd;
-    }
-    .input-area textarea {
-      flex: 1;
-      border: none;
-      padding: var(--spacing);
-      font-family: var(--font-base);
-      resize: none;
-      outline: none;
-    }
-    .input-area button {
-      background: var(--color-primary);
-      border: none;
-      color: var(--color-light);
-      padding: var(--spacing);
-      cursor: pointer;
-      transition: background var(--transition);
-    }
-    .input-area button:hover {
-      background: #006b3f;
-    }
-    /* Sidebar image panel */
-    .sidebar {
+      font-family: 'Libre Baskerville', serif;
+      background-color: #f8fdfb;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
-      align-items: start;
+      align-items: center;
+      height: 100vh;
     }
-    .sidebar img {
-      max-width: 100%;
-      border-radius: var(--radius);
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      max-width: 1000px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: var(--spacing);
-      font-size: 0.875rem;
-      color: #666;
+    #chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
     }
-    @media (max-width: 768px) {
-      main { grid-template-columns: 1fr; }
-      .sidebar { margin-top: var(--spacing); }
+    #response {
+      flex: 1;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 10px;
+      background: #ffffff;
+      margin-bottom: 10px;
+    }
+    .chat-image {
+      max-width: 300px;
+      border-radius: 10px;
+    }
+    #input-area {
+      display: flex;
+      gap: 10px;
+    }
+    textarea {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: none;
+      font-family: inherit;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #68c187;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Pluto Sans', sans-serif;
+    }
+    button:hover {
+      background-color: #008554;
+    }
+    h1 {
+      font-family: 'Pluto Sans', sans-serif;
+      text-align: center;
+      color: #008554;
+      margin-bottom: 20px;
+    }
+    p {
+      margin: 8px 0;
+      padding: 6px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
+    strong {
+      color: #008554;
     }
   </style>
 </head>
 <body>
-  <header>The Mitchells Chat Shed</header>
-  <main>
-    <!-- Chat Panel -->
-    <section class="chat-panel">
-      <div class="chat-header">Chat with Support</div>
-      <div class="messages" id="messages">
-        <!-- Messages will appear here -->
+  <div class="container">
+    <img
+      src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png"
+      alt="View of the farm"
+      class="chat-image"
+    />
+    <div id="chat-container">
+      <h1>The Mitchells Chat Shed</h1>
+      <div id="response"></div>
+      <div id="input-area">
+        <textarea id="message" rows="4" placeholder="Share your concerns..."></textarea>
+        <button onclick="sendMessage()">Send</button>
       </div>
-      <div class="input-area">
-        <textarea id="message-input" rows="2" placeholder="Type your message..."></textarea>
-        <button id="send-btn">Send</button>
-      </div>
-    </section>
-
-    <!-- Sidebar with Farm Image -->
-    <aside class="sidebar">
-      <img src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png" alt="Farm view">
-    </aside>
-  </main>
-  <footer>&copy; Mitchells Chartered Accountants</footer>
+    </div>
+  </div>
 
   <script>
-    // Basic JS to append messages
-    const sendBtn = document.getElementById('send-btn');
-    const input = document.getElementById('message-input');
-    const messagesDiv = document.getElementById('messages');
+    const conversation = [
+      { role: "system", content: `You are a friendly, down-to-earth chatbot for UK farmers. Avoid corporate buzzwords. Any negativity regarding Mitchells, point them towards talking to a partner (James, David, Sam, or Rachael at Mitchells Chartered Accountants, 01823 333813). Keep answers practical, supportive, and under 100 words. Provide basic troubleshooting if asked about machinery.` }
+    ];
 
-    sendBtn.addEventListener('click', () => {
-      const text = input.value.trim();
-      if (!text) return;
-      const userMsg = document.createElement('div');
-      userMsg.className = 'message user';
-      userMsg.textContent = text;
-      messagesDiv.append(userMsg);
-      // Placeholder bot reply
-      const botMsg = document.createElement('div');
-      botMsg.className = 'message bot';
-      botMsg.textContent = 'Thanks for sharing!';
-      messagesDiv.append(botMsg);
-      input.value = '';
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    const inputBox = document.getElementById('message');
+    inputBox.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
     });
+
+    async function sendMessage() {
+      const msg = inputBox.value.trim();
+      if (!msg) return;
+      conversation.push({ role: 'user', content: msg });
+      const responseDiv = document.getElementById('response');
+      responseDiv.innerHTML += `<p><strong>You:</strong> ${msg}</p>`;
+      inputBox.value = '';
+      try {
+        const res = await fetch('https://the-mitchells-chat-shed.onrender.com/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: conversation })
+        });
+        const data = await res.json();
+        conversation.push({ role: 'assistant', content: data.reply });
+        responseDiv.innerHTML += `<p><strong>Chatbot:</strong> ${data.reply}</p>`;
+        responseDiv.scrollTop = responseDiv.scrollHeight;
+      } catch (err) {
+        console.error(err);
+        responseDiv.innerHTML += `<p style="color:red;">Error getting reply</p>`;
+        responseDiv.scrollTop = responseDiv.scrollHeight;
+      }
+    }
   </script>
 </body>
 </html>
+
