@@ -35,13 +35,12 @@
       padding: 20px;
     }
     #response {
-      flex: 1;
       overflow-y: auto;
       padding: 10px;
       background: #f9f9f9;
       border-radius: 10px;
       margin-bottom: 15px;
-      min-height: 400px;
+      height: 400px;
     }
     .chat-image {
       max-width: 250px;
@@ -50,17 +49,18 @@
     }
     #input-area {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       width: 100%;
     }
     textarea {
-      flex: 1;
       padding: 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
       resize: none;
       font-family: inherit;
       height: 50px;
+      width: 100%;
     }
     button {
       padding: 10px 20px;
@@ -70,6 +70,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-family: 'Pluto Sans', sans-serif;
+      align-self: flex-end;
     }
     button:hover {
       background-color: #008554;
