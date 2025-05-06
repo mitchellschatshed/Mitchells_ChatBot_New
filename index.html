@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Libre Baskerville', serif;
-      background-color: #68c187;
+      background-color: #f8fdfb;
       margin: 0;
       padding: 0;
       display: flex;
@@ -18,7 +18,7 @@
     .container {
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       gap: 20px;
       max-width: 1000px;
       padding: 20px;
@@ -48,6 +48,7 @@
     #input-area {
       display: flex;
       gap: 10px;
+      width: 100%;
     }
     textarea {
       flex: 1;
@@ -56,6 +57,7 @@
       border: 1px solid #ccc;
       resize: none;
       font-family: inherit;
+      height: 60px;
     }
     button {
       padding: 10px 20px;
@@ -73,7 +75,8 @@
       font-family: 'Pluto Sans', sans-serif;
       text-align: center;
       color: #008554;
-      margin-bottom: 20px;
+      margin-top: 0;
+      margin-bottom: 10px;
     }
     p {
       margin: 8px 0;
@@ -97,7 +100,7 @@
       <h1>The Mitchells Chat Shed</h1>
       <div id="response"></div>
       <div id="input-area">
-        <textarea id="message" rows="4" placeholder="Share your concerns..."></textarea>
+        <textarea id="message" placeholder="Type your message..."></textarea>
         <button onclick="sendMessage()">Send</button>
       </div>
     </div>
@@ -142,4 +145,3 @@
   </script>
 </body>
 </html>
-
