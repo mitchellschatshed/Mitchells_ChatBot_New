@@ -26,7 +26,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
     /* CORNER ICON (farm image outside corner) */
@@ -76,6 +75,9 @@
       overflow-y: auto;
       padding: 15px;
       box-sizing: border-box;
+      display: flex;                /* ✅ ADD THIS */
+      flex-direction: column;       /* ✅ AND THIS */
+      gap: 10px;                    /* ✅ optional spacing between bubbles */
     }
 
     /* INDIVIDUAL MESSAGE BUBBLES */
