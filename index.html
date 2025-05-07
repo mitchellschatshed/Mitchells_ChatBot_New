@@ -31,13 +31,14 @@
     /* CORNER ICON (farm image outside corner) */
     .corner-icon {
       position: absolute;
-      top: -20px;       /* push it above the chat-wrapper */
-      left: -20px;      /* push it left outside the chat-wrapper */
-      width: 50px;      /* size of icon */
+      top: -30px;       /* push it above the chat-wrapper */
+      left: -30px;      /* push it left outside the chat-wrapper */
+      width: 60px;      /* size of icon */
       border-radius: 50%;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       background: white;  /* optional white bg */
       border: 2px solid white; /* optional border to blend */
+      z-index: 2;         /* ✅ ensures it sits above other elements */
     }
 
     /* HEADER */
@@ -46,6 +47,8 @@
       color: white;
       text-align: center;
       padding: 20px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
       font-family: 'Pluto Sans', sans-serif;
       font-size: 22px;
       position: relative;
