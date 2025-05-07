@@ -22,57 +22,67 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
-      padding: 20px;
-      gap: 15px;
+      overflow: hidden;
     }
     .chat-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      background: #008554;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-family: 'Pluto Sans', sans-serif;
+      font-size: 22px;
+      position: relative;
     }
     .chat-header img {
+      position: absolute;
+      top: 10px;
+      left: 10px;
       width: 40px;
-      height: 40px;
       border-radius: 6px;
     }
-    .chat-header h1 {
-      font-family: 'Pluto Sans', sans-serif;
-      color: #008554;
-      font-size: 20px;
-      margin: 0;
-    }
     .chat-messages {
+      padding: 20px;
+      height: 300px;   /* ✅ fixed height */
+      overflow-y: auto;
       background: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 10px;
-      padding: 10px;
-      height: 300px;
-      overflow-y: auto;
     }
     .message {
       max-width: 80%;
-      margin-bottom: 10px;
-      padding: 8px 12px;
-      border-radius: 14px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      border-radius: 18px;
       font-size: 14px;
       line-height: 1.4;
       word-wrap: break-word;
     }
-    .bot { background: #e0e0e0; color: black; text-align: left; }
-    .user { background: #68c187; color: white; text-align: right; margin-left: auto; }
+    .bot {
+      background: #e0e0e0;
+      color: black;
+      text-align: left;
+      margin-right: auto;
+    }
+    .user {
+      background: #68c187;
+      color: white;
+      text-align: right;
+      margin-left: auto;
+    }
     .chat-input {
+      padding: 15px;
+      border-top: 1px solid #ddd;
       display: flex;
-      flex-direction: column;
       gap: 10px;
     }
     .chat-input textarea {
-      width: 100%;
-      height: 60px;
+      flex: 1;
+      resize: none;
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 10px;
       font-family: inherit;
-      resize: none;
+      font-size: 14px;
     }
     .chat-input button {
       background: #68c187;
@@ -92,13 +102,13 @@
   <div class="chat-wrapper">
     <div class="chat-header">
       <img src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png" alt="Farm icon">
-      <h1>The Mitchells Chat Shed</h1>
+      The Mitchells Chat Shed
     </div>
     <div class="chat-messages" id="response">
-      <!-- messages will appear here -->
+      <!-- Chat messages will appear here -->
     </div>
     <div class="chat-input">
-      <textarea id="message" placeholder="Type your message..."></textarea>
+      <textarea id="message" rows="2" placeholder="Type your message..."></textarea>
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
