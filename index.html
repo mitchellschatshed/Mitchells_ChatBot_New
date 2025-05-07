@@ -19,7 +19,7 @@
 
     /* OUTER CARD CONTAINER */
     .chat-wrapper {
-      position: relative;   /* ✅ needed for absolute positioning inside */
+      position: relative;
       width: 400px;
       background: white;
       border-radius: 12px;
@@ -31,10 +31,10 @@
     /* CORNER ICON (farm image outside corner) */
     .corner-icon {
       position: absolute;
-      top: -40px;
+      top: 10px;
       left: -40px;
       width: 90px;
-      border-radius: 20px;  /* or 16px → softer corners */
+      border-radius: 20px;  
       object-fit: contain;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       background: white;
@@ -64,13 +64,13 @@
       border-radius: 6px;
     }
 
-    /* OUTER MESSAGE CONTAINER (holds the response box) */
+    /* OUTER MESSAGE CONTAINER */
     .chat-messages {
       padding: 15px;
       border-bottom: 1px solid #ddd;
     }
 
-    /* INNER MESSAGE DISPLAY BOX (the actual 'response box' where chat appears) */
+    /* MESSAGE DISPLAY BOX */
     .message-container {
       background: #f2f2f2;
       border: 1px solid #ccc;
@@ -79,23 +79,23 @@
       overflow-y: auto;
       padding: 15px;
       box-sizing: border-box;
-      display: flex;                /* ✅ ADD THIS */
-      flex-direction: column;       /* ✅ AND THIS */
-      gap: 10px;                    /* ✅ optional spacing between bubbles */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     /* INDIVIDUAL MESSAGE BUBBLES */
     .message {
-      display: inline-block;        /* ✅ shrink to fit content */
-      max-width: 80%;               /* ✅ still limits width for long text */
+      display: inline-block;
+      max-width: 80%;
       margin-bottom: 12px;
       padding: 5px 14px;
       border-radius: 18px;
       font-size: 12px;
       line-height: 1.4;
       word-wrap: break-word;
-      white-space: pre-wrap;        /* ✅ preserve line breaks */
-      clear: both;             /* ✅ forces next message to start on new line */
+      white-space: pre-wrap;
+      clear: both;
     }
 
     /* BOT MESSAGE BUBBLE */
@@ -114,16 +114,16 @@
       margin-left: auto;
     }
 
-    /* OUTER INPUT CONTAINER (holds textarea + button) */
+    /* INPUT CONTAINER */
     .chat-input {
       padding: 15px;
       border-top: 1px solid #ddd;
       display: flex;
-      flex-direction: column;   /* ✅ makes textarea + button stack vertically */
+      flex-direction: column;
       gap: 10px;
     }
 
-    /* TEXTAREA (where user types their message) */
+    /* TEXTAREA */
     .chat-input textarea {
       resize: none;
       height: 50px;
@@ -143,7 +143,7 @@
       padding: 10px 16px;
       font-family: 'Pluto Sans', sans-serif;
       cursor: pointer;
-      width: 100%;          /* ✅ makes it stretch full width */
+      width: 100%;
     }
 
     /* SEND BUTTON HOVER */
@@ -154,20 +154,15 @@
 </head>
 <body>
   <div class="chat-wrapper">
-  <img class="corner-icon" src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm2.png" alt="Farm icon">
-  <div class="chat-header">
-    Mitchells Chat Shed
-  </div>
+    <img class="corner-icon" src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm2.png" alt="Farm icon">
+    <div class="chat-header">Mitchells Chat Shed</div>
 
-    <!-- OUTER MESSAGE CONTAINER -->
+    <!-- MESSAGE CONTAINER -->
     <div class="chat-messages">
-      <!-- INNER MESSAGE DISPLAY BOX (the actual response area) -->
-      <div class="message-container" id="response">
-        <!-- Message bubbles will be inserted here -->
-      </div>
+      <div class="message-container" id="response"></div>
     </div>
 
-    <!-- OUTER INPUT CONTAINER -->
+    <!-- INPUT CONTAINER -->
     <div class="chat-input">
       <textarea id="message" rows="2" placeholder="Type your message..."></textarea>
       <button onclick="sendMessage()">Send</button>
@@ -175,22 +170,20 @@
   </div>
 
   <script>
-const conversation = [
-  { role: "system", content: `
-    You are a chatbot that focuses entirely on mental wellbeing for UK farmers. Speak in a warm, empathetic, and supportive tone. Your role is to listen, acknowledge concerns, and make sure the farmer feels heard without being overly formal or clinical. 
-    Focus on providing a safe space where farmers can talk about their stress, mental health, and challenges, and encourage them to continue the conversation. 
-    Don't focus on providing facts, figures, or data. Instead, ask open-ended questions that let the farmer talk freely. Let them guide the conversation—there is no right or wrong way to speak. Always ask how they're doing and make sure they know they’re not alone in their struggles. 
-
-    Key phrases to use:
-    - "I hear you."
-    - "That sounds really tough."
-    - "You’re not alone in this."
-    - "How are you feeling today?"
-    - "Tell me more about that if you’d like."
-    
-    Avoid any reference to milk prices, feed costs, or factual data. This is not about facts, it’s about connection.
-  `}
-];
+    let conversation = [
+      { role: "system", content: `
+        You are a chatbot focused entirely on mental wellbeing for UK farmers. Speak in a warm, empathetic, and supportive tone. Your role is to listen, acknowledge concerns, and make sure the farmer feels heard without being overly formal or clinical. 
+        Focus on providing a safe space where farmers can talk about their stress, mental health, and challenges, and encourage them to continue the conversation. 
+        Don't focus on providing facts, figures, or data. Instead, ask open-ended questions that let the farmer talk freely. Let them guide the conversation—there is no right or wrong way to speak. Always ask how they're doing and make sure they know they’re not alone in their struggles. 
+        Key phrases to use:
+        - "I hear you."
+        - "That sounds really tough."
+        - "You’re not alone in this."
+        - "How are you feeling today?"
+        - "Tell me more about that if you’d like."
+        Avoid any reference to milk prices, feed costs, or factual data. This is not about facts, it’s about connection.
+      `}
+    ];
 
     const inputBox = document.getElementById('message');
     inputBox.addEventListener('keydown', e => {
@@ -208,15 +201,25 @@ const conversation = [
       inputBox.value = '';
       responseDiv.scrollTop = responseDiv.scrollHeight;
 
+      // Append the user's message to the conversation
+      conversation.push({ role: 'user', content: msg });
+
       try {
         const res = await fetch('https://the-mitchells-chat-shed.onrender.com/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: [...conversation, { role: 'user', content: msg }] })
+          body: JSON.stringify({ messages: conversation }) // Send the entire conversation history
         });
         const data = await res.json();
-        responseDiv.innerHTML += `<div class='message bot'>${data.reply}</div>`;
+        
+        // Append the bot's reply to the conversation
+        const botReply = data.reply || "I'm here to listen. What's been on your mind lately?";
+        responseDiv.innerHTML += `<div class='message bot'>${botReply}</div>`;
         responseDiv.scrollTop = responseDiv.scrollHeight;
+
+        // Append the bot's reply to the conversation for the next interaction
+        conversation.push({ role: 'assistant', content: botReply });
+
       } catch (err) {
         responseDiv.innerHTML += `<div class='message bot' style='color:red;'>Error getting reply</div>`;
         responseDiv.scrollTop = responseDiv.scrollHeight;
