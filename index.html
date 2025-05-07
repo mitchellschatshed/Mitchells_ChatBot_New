@@ -6,6 +6,7 @@
   <title>Mitchells Chat Shed</title>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Pluto+Sans:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    /* MAIN OUTER CONTAINER */
     body {
       margin: 0;
       background: #f8fdfb;
@@ -15,6 +16,8 @@
       align-items: center;
       height: 100vh;
     }
+
+    /* OUTER CARD CONTAINER */
     .chat-wrapper {
       width: 400px;
       background: white;
@@ -24,6 +27,8 @@
       flex-direction: column;
       overflow: hidden;
     }
+
+    /* HEADER */
     .chat-header {
       background: #008554;
       color: white;
@@ -33,6 +38,8 @@
       font-size: 22px;
       position: relative;
     }
+
+    /* HEADER IMAGE */
     .chat-header img {
       position: absolute;
       top: 10px;
@@ -40,14 +47,25 @@
       width: 40px;
       border-radius: 6px;
     }
-   .chat-messages {
-      padding: 20px;
-      height: 300px;              /* ✅ fixed height */
-      overflow-y: auto;
-      background: #f9f9f9;
-      border: 1px solid #ddd;      /* ✅ visible border */
-      border-radius: 10px;
+
+    /* OUTER MESSAGE CONTAINER (holds the response box) */
+    .chat-messages {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
     }
+
+    /* INNER MESSAGE DISPLAY BOX (the actual 'response box' where chat appears) */
+    .message-container {
+      background: #f2f2f2;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      height: 300px;
+      overflow-y: auto;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+
+    /* INDIVIDUAL MESSAGE BUBBLES */
     .message {
       max-width: 80%;
       margin-bottom: 12px;
@@ -57,24 +75,32 @@
       line-height: 1.4;
       word-wrap: break-word;
     }
+
+    /* BOT MESSAGE BUBBLE */
     .bot {
       background: #e0e0e0;
       color: black;
       text-align: left;
       margin-right: auto;
     }
+
+    /* USER MESSAGE BUBBLE */
     .user {
       background: #68c187;
       color: white;
       text-align: right;
       margin-left: auto;
     }
+
+    /* OUTER INPUT CONTAINER (holds textarea + button) */
     .chat-input {
       padding: 15px;
       border-top: 1px solid #ddd;
       display: flex;
       gap: 10px;
     }
+
+    /* TEXTAREA (where user types their message) */
     .chat-input textarea {
       flex: 1;
       resize: none;
@@ -84,6 +110,8 @@
       font-family: inherit;
       font-size: 14px;
     }
+
+    /* SEND BUTTON */
     .chat-input button {
       background: #68c187;
       color: white;
@@ -93,6 +121,8 @@
       font-family: 'Pluto Sans', sans-serif;
       cursor: pointer;
     }
+
+    /* SEND BUTTON HOVER */
     .chat-input button:hover {
       background: #008554;
     }
@@ -104,9 +134,16 @@
       <img src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png" alt="Farm icon">
       The Mitchells Chat Shed
     </div>
-    <div class="chat-messages" id="response">
-      <!-- Chat messages will appear here -->
+
+    <!-- OUTER MESSAGE CONTAINER -->
+    <div class="chat-messages">
+      <!-- INNER MESSAGE DISPLAY BOX (the actual response area) -->
+      <div class="message-container" id="response">
+        <!-- Message bubbles will be inserted here -->
+      </div>
     </div>
+
+    <!-- OUTER INPUT CONTAINER -->
     <div class="chat-input">
       <textarea id="message" rows="2" placeholder="Type your message..."></textarea>
       <button onclick="sendMessage()">Send</button>
@@ -115,7 +152,7 @@
 
   <script>
     const conversation = [
-      { role: \"system\", content: \"You are a friendly chatbot for UK farmers. Keep answers practical, supportive, under 100 words. Avoid corporate buzzwords.\" }
+      { role: "system", content: "You are a friendly chatbot for UK farmers. Keep answers practical, supportive, under 100 words. Avoid corporate buzzwords." }
     ];
 
     const inputBox = document.getElementById('message');
