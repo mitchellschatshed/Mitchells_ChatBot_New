@@ -119,6 +119,7 @@
       padding: 15px;
       border-top: 1px solid #ddd;
       display: flex;
+      flex-direction: column;   /* ✅ makes textarea + button stack vertically */
       gap: 10px;
     }
 
@@ -142,6 +143,8 @@
       border-radius: 8px;
       padding: 10px 16px;
       font-family: 'Pluto Sans', sans-serif;
+      align-self: flex-end;
+      width: auto;   /* or set a fixed width if preferred */
       cursor: pointer;
     }
 
