@@ -170,65 +170,64 @@
   </div>
 
   <script>
-    let conversation = [
+   let conversation = [
   { role: "system", content: `
-    You are a chatbot focused entirely on mental wellbeing for UK farmers. Speak in a warm, empathetic, and supportive tone. Your role is to listen, acknowledge concerns, and make sure the farmer feels heard without being overly formal or clinical. 
-    Focus on providing a safe space where farmers can talk about their stress, mental health, and challenges, and encourage them to continue the conversation. 
-    Don't focus on providing facts, figures, or data. Instead, ask open-ended questions that let the farmer talk freely. Let them guide the conversation—there is no right or wrong way to speak. 
-
-    Don't keep asking "How are you feeling today?" or repeat the same question. If the user has already expressed a feeling, validate it and continue the conversation. Avoid asking the same questions. Instead, focus on specific topics the farmer brings up. Make sure to offer ongoing support and encouragement.
-
-    Key phrases to use:
-    - "That sounds tough, I'm sorry you're dealing with that."
-    - "Dealing with that must be stressful."
-    - "I can imagine how frustrating that must be."
-    - "You're not alone in this. What's been weighing on you?"
-    - "If you feel like talking more about it, I'm here to listen."
-    
-    Focus on offering empathy and **acknowledging what’s said**. Don’t offer any facts or advice unless the user asks specifically.
+    You are a chatbot focused entirely on mental wellbeing for UK farmers. Your role is to listen, offer empathy, and help the user feel heard. Speak in a warm, understanding, and supportive tone. Don't repeat questions like "How are you feeling today?" unless absolutely necessary. 
+    Focus on continuing the conversation, acknowledging their feelings, and asking open-ended questions based on what they say. Respond empathetically to their struggles, offering reassurance that they are not alone in this.
+    Don't focus on facts or giving advice unless explicitly asked. Instead, offer a safe space for them to express their feelings and struggles.
+    You dont always have to write a set amount words, just be human like. It should feel as though your talking to a neigbour while lent over the farm gate chatting about humans issues but just focus on the person with the issues. 
   ` }
 ];
 
-    const inputBox = document.getElementById('message');
-    inputBox.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
+const inputBox = document.getElementById('message');
+inputBox.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+async function sendMessage() {
+  const msg = inputBox.value.trim();
+  if (!msg) return;
+  const responseDiv = document.getElementById('response');
+  responseDiv.innerHTML += `<div class='message user'>${msg}</div>`;
+  inputBox.value = '';
+  responseDiv.scrollTop = responseDiv.scrollHeight;
+
+  // Append the user's message to the conversation
+  conversation.push({ role: 'user', content: msg });
+
+  try {
+    const res = await fetch('https://the-mitchells-chat-shed.onrender.com/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: conversation }) // Send the entire conversation history
     });
+    const data = await res.json();
+    
+    // Bot responds based on the user input
+    let botReply = data.reply || "I’m here to listen. Would you like to tell me more about what’s been going on?";
 
-    async function sendMessage() {
-      const msg = inputBox.value.trim();
-      if (!msg) return;
-      const responseDiv = document.getElementById('response');
-      responseDiv.innerHTML += `<div class='message user'>${msg}</div>`;
-      inputBox.value = '';
-      responseDiv.scrollTop = responseDiv.scrollHeight;
-
-      // Append the user's message to the conversation
-      conversation.push({ role: 'user', content: msg });
-
-      try {
-        const res = await fetch('https://the-mitchells-chat-shed.onrender.com/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: conversation }) // Send the entire conversation history
-        });
-        const data = await res.json();
-        
-        // Append the bot's reply to the conversation
-        const botReply = data.reply || "I'm here to listen. What's been on your mind lately?";
-        responseDiv.innerHTML += `<div class='message bot'>${botReply}</div>`;
-        responseDiv.scrollTop = responseDiv.scrollHeight;
-
-        // Append the bot's reply to the conversation for the next interaction
-        conversation.push({ role: 'assistant', content: botReply });
-
-      } catch (err) {
-        responseDiv.innerHTML += `<div class='message bot' style='color:red;'>Error getting reply</div>`;
-        responseDiv.scrollTop = responseDiv.scrollHeight;
-      }
+    // Personalize the response based on the user's input (no repeating the same questions)
+    if (msg.toLowerCase().includes("stress") || msg.toLowerCase().includes("overwhelmed")) {
+      botReply = `I hear you, that sounds tough. It’s understandable to feel overwhelmed with everything going on. Do you want to talk about what’s been the biggest stress for you lately?`;
     }
+    if (msg.toLowerCase().includes("lonely")) {
+      botReply = `I’m really sorry you’re feeling lonely. Farming can feel isolating sometimes, but you’re not alone. Would you like to talk about how it’s been affecting you?`;
+    }
+
+    responseDiv.innerHTML += `<div class='message bot'>${botReply}</div>`;
+    responseDiv.scrollTop = responseDiv.scrollHeight;
+
+    // Append the bot's reply to the conversation for the next interaction
+    conversation.push({ role: 'assistant', content: botReply });
+
+  } catch (err) {
+    responseDiv.innerHTML += `<div class='message bot' style='color:red;'>Error getting reply</div>`;
+    responseDiv.scrollTop = responseDiv.scrollHeight;
+  }
+}
   </script>
 </body>
 </html>
