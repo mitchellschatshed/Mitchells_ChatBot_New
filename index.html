@@ -19,6 +19,7 @@
 
     /* OUTER CARD CONTAINER */
     .chat-wrapper {
+      position: relative;   /* ✅ needed for absolute positioning inside */
       width: 400px;
       background: white;
       border-radius: 12px;
@@ -26,6 +27,18 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+    }
+
+    /* CORNER ICON (farm image outside corner) */
+    .corner-icon {
+      position: absolute;
+      top: -20px;       /* push it above the chat-wrapper */
+      left: -20px;      /* push it left outside the chat-wrapper */
+      width: 50px;      /* size of icon */
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      background: white;  /* optional white bg */
+      border: 2px solid white; /* optional border to blend */
     }
 
     /* HEADER */
@@ -133,10 +146,12 @@
 </head>
 <body>
   <div class="chat-wrapper">
-    <div class="chat-header">
-      <img src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png" alt="Farm icon">
-      The Mitchells Chat Shed
-    </div>
+  <img class="corner-icon" src="https://raw.githubusercontent.com/mitchellschatshed/Mitchells_ChatBot_New/master/images/farm.png" alt="Farm icon">
+  <div class="chat-header">
+    The Mitchells Chat Shed
+  </div>
+  ...
+</div>
 
     <!-- OUTER MESSAGE CONTAINER -->
     <div class="chat-messages">
